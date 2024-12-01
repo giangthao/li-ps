@@ -435,6 +435,7 @@ import { CommonModule } from '@angular/common';
             <span> Hello there, </span>
             Welcome angular-monorepo 👋
           </h1>
+          <img alt="home" src="assets/images/home.jpg" />
         </div>
         <!--  HERO  -->
         <div id="hero" class="rounded">

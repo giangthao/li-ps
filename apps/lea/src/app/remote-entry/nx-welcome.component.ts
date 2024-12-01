@@ -435,6 +435,7 @@ import { CommonModule } from '@angular/common';
             <span> Hello there, </span>
             Welcome lea 👋
           </h1>
+          <img alt="girl" src="lea-assets/images/girl.jpg" />
         </div>
         <!--  HERO  -->
         <div id="hero" class="rounded">

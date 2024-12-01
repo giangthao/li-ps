@@ -435,6 +435,7 @@ import { CommonModule } from '@angular/common';
             <span> Hello there, </span>
             Welcome lemf 👋
           </h1>
+          <img alt="rose" src="lemf-assets/images/rose.jpg" >
         </div>
         <!--  HERO  -->
         <div id="hero" class="rounded">

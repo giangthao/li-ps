@@ -1,0 +1,9 @@
+{
+  "/lea-assets": {
+    "target": "http://localhost:4201",
+    "secure": false,
+    "pathRewrite": {
+      "^/lea-assets": "/assets"
+    }
+  }
+}

@@ -17,9 +17,17 @@
         "tsConfig": "apps/lea/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
+          "apps/lea/src/assets",
+          "apps/lea/src/assets/images",
+          "apps/lea/src/assets/icons",
+          "apps/lea/src/assets/i18n",
           {
             "glob": "**/*",
             "input": "apps/lea/public"
+          },
+          {
+            "glob": "**/*",
+            "input": "apps/lea/src/assets"
           }
         ],
         "styles": ["apps/lea/src/styles.scss"],
@@ -62,7 +70,8 @@
       "executor": "@nx/angular:dev-server",
       "options": {
         "port": 4201,
-        "publicHost": "http://localhost:4201"
+        "publicHost": "http://localhost:4201",
+        "proxyConfig": "apps/lea/proxy.conf.json"
       },
       "configurations": {
         "production": {

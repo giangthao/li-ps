@@ -1,0 +1,9 @@
+{
+  "/lemf-assets": {
+    "target": "http://localhost:4202",
+    "secure": false,
+    "pathRewrite": {
+      "^/lemf-assets": "/assets"
+    }
+  }
+}
