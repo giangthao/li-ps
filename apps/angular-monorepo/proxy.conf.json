@@ -1,16 +1,10 @@
 {
-  "/lea-assets": {
+  "/assets/lea-images": {
     "target": "http://localhost:4201",
-    "secure": false,
-    "pathRewrite": {
-      "^/lea-assets": "/assets"
-    }
+    "secure": false
   },
-  "/lemf-assets": {
+  "/assets/lemf-images": {
     "target": "http://localhost:4202",
-    "secure": false,
-    "pathRewrite": {
-      "^/lemf-assets": "/assets"
-    }
+    "secure": false
   }
 }

@@ -15,6 +15,29 @@ const config: ModuleFederationConfig = {
    *
    */
   remotes: ['lea', 'lemf'],
+  shared: (libraryName, sharedConfig) => {
+    switch (libraryName) {
+      case '@angular/core':
+      case '@angular/common':
+      case '@angular/router':
+        return {
+          ...sharedConfig,
+          singleton: true,
+          strictVersion: false,
+          eager: false,
+        };
+      case '@ngx-translate/core':
+      case '@ngx-translate/http-loader':
+        return {
+          ...sharedConfig,
+          singleton: true,
+          strictVersion: false,
+          requiredVersion: 'latest',
+        };
+      default:
+        return false;
+    }
+  },
 };
 
 /**

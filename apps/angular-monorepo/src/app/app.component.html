@@ -1,6 +1,13 @@
 <ul class="remote-menu">
-  <li><a routerLink="/">Home</a></li>
-  <li><a routerLink="lea">Lea Management</a></li>
-  <li><a routerLink="lemf">Lemf</a></li>
+  <!-- Hiển thị ngôn ngữ hiện tại -->
+  <p>Current Language: {{ currentLanguage }}</p>
+
+  <!-- Thay đổi ngôn ngữ -->
+  <button (click)="switchLanguage('en')">{{'shell.english' | translate}}</button>
+  <button (click)="switchLanguage('vi')">{{'shell.vietnamese' | translate}}</button>
+  <li><a routerLink="/">{{'shell.home' | translate}}</a></li>
+  <li><a routerLink="lea">{{'shell.lea' | translate}}</a></li>
+  <li><a routerLink="lemf">{{'shell.lemf' | translate}}</a></li>
+  <img alt="home" style="width: 50px; height: auto;" src="assets/images/home.jpg" />
 </ul>
 <router-outlet></router-outlet>

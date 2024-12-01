@@ -1,0 +1,16 @@
+{
+  "shell": {
+    "home": "Home",
+    "lea": "LEA Management",
+    "lemf": "LEMF Management",
+    "english": "English",
+    "vietnamese": "Vietnamese"
+  },
+  "lea": {
+    "lea_app": "Lea app remote",
+    "list_lea": "List LEA"
+  },
+  "lemf": {
+    "lemf_app": "Lemf app remote"
+  }
+}

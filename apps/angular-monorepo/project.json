@@ -30,7 +30,11 @@
             "input": "apps/angular-monorepo/src/assets"
           }
         ],
-        "styles": ["apps/angular-monorepo/src/styles.scss"],
+        "styles": [
+          "apps/angular-monorepo/src/styles.scss",
+          "apps/lea/src/styles.scss",
+          "apps/lemf/src/styles.scss"
+        ],
         "scripts": [],
         "customWebpackConfig": {
           "path": "apps/angular-monorepo/webpack.config.ts"

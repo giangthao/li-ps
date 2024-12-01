@@ -1,0 +1,16 @@
+{
+  "shell": {
+    "home": "Trang chủ",
+    "lea": "Quản lý LEA",
+    "lemf": "Quản lý LEMF",
+    "english": "Tiếng Anh",
+    "vietnamese": "Tiếng Việt"
+  },
+  "lea": {
+    "lea_app": "Ứng dụng LEA",
+    "list_lea": "Danh sách LEA"
+  },
+  "lemf": {
+    "lemf_app": "Ứng dụng LEMF"
+  }
+}

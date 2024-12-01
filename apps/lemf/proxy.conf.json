@@ -5,5 +5,12 @@
     "pathRewrite": {
       "^/lemf-assets": "/assets"
     }
+  },
+  "/assets-shell/i18n/": {
+    "target": "http://localhost:4200",
+    "secure": false,
+    "pathRewrite": {
+      "^/assets-shell": "/assets"
+    }
   }
 }

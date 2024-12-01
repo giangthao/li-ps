@@ -18,9 +18,7 @@
         "inlineStyleLanguage": "scss",
         "assets": [
           "apps/lea/src/assets",
-          "apps/lea/src/assets/images",
-          "apps/lea/src/assets/icons",
-          "apps/lea/src/assets/i18n",
+          "apps/lea/src/assets/lea-images",
           {
             "glob": "**/*",
             "input": "apps/lea/public"

@@ -1,11 +1,17 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NxWelcomeComponent } from './nx-welcome.component';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '@li-ps/language';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, NxWelcomeComponent],
+  imports: [CommonModule, TranslateModule],
   selector: 'app-lemf-entry',
-  template: `<app-nx-welcome></app-nx-welcome>`,
+  templateUrl: './entry.component.html',
 })
-export class RemoteEntryComponent {}
+export class RemoteEntryComponent {
+  constructor(private readonly translate: TranslateService, private readonly languageService: LanguageService) {
+    // Sử dụng dịch vụ dịch thuật được chia sẻ từ app shell
+    this.translate.setDefaultLang(this.languageService.getCurrentLanguage());
+  }
+}

@@ -1,0 +1,13 @@
+.list-lea {
+  input {
+    position: relative;
+  }
+  input[type='checkbox']:not(:checked)::after {
+    position: absolute;
+    left: 0;
+    top: 20px;
+    display: block;
+    width: 30px;
+    content: url(/assets/lea-images/home.svg); // test get url
+  }
+}
