@@ -17,15 +17,9 @@
         "tsConfig": "apps/lea/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
-          "apps/lea/src/assets",
-          "apps/lea/src/assets/lea-images",
           {
             "glob": "**/*",
             "input": "apps/lea/public"
-          },
-          {
-            "glob": "**/*",
-            "input": "apps/lea/src/assets"
           }
         ],
         "styles": ["apps/lea/src/styles.scss"],

@@ -1,16 +1,23 @@
 {
-  "/lea-assets": {
-    "target": "http://localhost:4201",
-    "secure": false,
-    "pathRewrite": {
-      "^/lea-assets": "/assets"
-    }
-  },
-  "/assets-shell/i18n/": {
+  "/assets": {
     "target": "http://localhost:4200",
     "secure": false,
     "pathRewrite": {
-      "^/assets-shell": "/assets"
+      "^/assets": "/assets"
     }
+  },
+  "/assets/i18n/": {
+    "target": "http://localhost:4200",
+    "secure": false,
+    "pathRewrite": {
+      "^/assets": "/assets"
+    }
+  },
+  "/dist/apps/angular-monorepo": {
+    "target": "http://localhost:4200",
+    "pathRewrite": {
+      "^/dist/apps/angular-monorepo": ""
+    },
+    "secure": false
   }
 }

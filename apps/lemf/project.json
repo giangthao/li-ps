@@ -17,8 +17,6 @@
         "tsConfig": "apps/lemf/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
-          "apps/lemf/src/assets",
-          "apps/lemf/src/assets/lemf-images",
           {
             "glob": "**/*",
             "input": "apps/lemf/public"

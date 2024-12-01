@@ -5,11 +5,14 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LanguageService } from '@li-ps/language';
+import { DOCUMENT } from '@angular/common';
 
 
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
+export function HttpLoaderFactory(http: HttpClient, document: Document) {
+  const baseHref = document.querySelector('base')?.getAttribute('href') || '/';
+  return new TranslateHttpLoader(http, `${baseHref}assets/i18n/`, '.json');
 }
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,11 +24,12 @@ export const appConfig: ApplicationConfig = {
         loader: {
           provide: TranslateLoader,
           useFactory: HttpLoaderFactory,
-          deps: [HttpClient],
+          deps: [HttpClient, DOCUMENT],
         },
         isolate: false
       })
     ),
     LanguageService,
+    { provide: DOCUMENT, useValue: document }
   ],
 };

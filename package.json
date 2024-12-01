@@ -4,7 +4,9 @@
   "license": "MIT",
   "scripts": {
     "start": "nx run-many --target=serve --parallel --maxParallel=5",
-    "build": "nx run-many --target=serve --parallel --maxParallel=5"
+    "lea:build": "npx nx run lea:build --configuration=production --base-href=/dist/apps/lea/",
+    "lemf:build": "npx nx run lemf:build --configuration=production --base-href=/dist/apps/lemf/",
+    "shell:build": "npx nx run angular-monorepo:build --configuration=production --base-href=/dist/apps/angular-monorepo/"
   },
   "private": true,
   "devDependencies": {

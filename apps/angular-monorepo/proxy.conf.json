@@ -1,10 +1,9 @@
 {
-  "/assets/lea-images": {
-    "target": "http://localhost:4201",
-    "secure": false
-  },
-  "/assets/lemf-images": {
-    "target": "http://localhost:4202",
+  "/dist/apps/angular-monorepo": {
+    "target": "http://localhost:4200",
+    "pathRewrite": {
+      "^/dist/apps/angular-monorepo": ""
+    },
     "secure": false
   }
 }

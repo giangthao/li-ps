@@ -19,6 +19,10 @@ export default withModuleFederation(
      *   ['app2', 'https://app2.example.com'],
      * ]
      */
+    remotes: [
+      ['lea', '../lea/remoteEntry.mjs'],
+      ['lemf', '../lemf/remoteEntry.mjs'],
+    ],
   },
   { dts: false }
 );

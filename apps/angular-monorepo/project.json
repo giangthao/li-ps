@@ -19,7 +19,6 @@
         "assets": [
           "apps/angular-monorepo/src/assets",
           "apps/angular-monorepo/src/assets/images",
-          "apps/angular-monorepo/src/assets/icons",
           "apps/angular-monorepo/src/assets/i18n",
           {
             "glob": "**/*",

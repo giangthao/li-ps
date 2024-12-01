@@ -1,16 +1,16 @@
 {
-  "/lemf-assets": {
-    "target": "http://localhost:4202",
+  "/assets": {
+    "target": "http://localhost:4200",
     "secure": false,
     "pathRewrite": {
       "^/lemf-assets": "/assets"
     }
   },
-  "/assets-shell/i18n/": {
+  "/assets/i18n/": {
     "target": "http://localhost:4200",
     "secure": false,
     "pathRewrite": {
-      "^/assets-shell": "/assets"
+      "^/assets": "/assets"
     }
   }
 }
