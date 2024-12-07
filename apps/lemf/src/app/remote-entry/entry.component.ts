@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '@li-ps/language';
+import {NotFoundComponent, TestComponent} from '@lea/components'
 
 @Component({
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, TranslateModule, NotFoundComponent, TestComponent],
   selector: 'app-lemf-entry',
   templateUrl: './entry.component.html',
 })
