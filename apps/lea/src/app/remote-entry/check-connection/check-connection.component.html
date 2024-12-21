@@ -1,0 +1,41 @@
+<div class="popup__header" mat-dialog-title>
+  <h1>Kiếm tra đấu nối</h1>
+  <button class="close-btn" (click)="closeDialog()">x</button>
+</div>
+<div mat-dialog-content>
+  <button (click)="downloadFiles()" style="margin: 10px 0;">template.zip</button>
+  <button
+    *ngIf="files.length === 0"
+    class="drop-zone"
+    (dragover)="onDragOver($event)"
+    (drop)="onDrop($event)"
+    (click)="fileInput.click()"
+  >
+  <form [formGroup]="formGroup">
+    <input formControlName="file" type="file" #fileInput (change)="onFileSelect($event)" hidden />
+  </form>
+   
+    <p>Kéo và thả file vào đây hoặc nhấp để chọn file</p>
+  </button>
+  <!-- Hiển thị thông báo lỗi nếu có -->
+  <div *ngIf="errorMessage" class="error-message">
+    <p>{{ errorMessage }}</p>
+  </div>
+  <p *ngIf="isUploading">Uploading....</p>
+  <p *ngIf="!isUploading && isUploadSucess">Thành công</p>
+  <div *ngIf="files.length > 0 && !isUploading">
+    {{ files[0].name }} |
+    {{ fileSize}}
+    <button (click)="removeFileUpload()">Xóa</button>
+  </div>
+</div>
+
+<div class="popup__actions" mat-dialog-actions>
+  <button mat-button (click)="closeDialog()">Đóng</button>
+  <button
+    mat-button
+    [disabled]="files.length === 0 || isUploading || !isUploadSucess"
+  >
+    Lưu
+  </button>
+</div>
