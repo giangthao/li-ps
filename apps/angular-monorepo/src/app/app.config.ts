@@ -6,6 +6,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LanguageService } from '@li-ps/language';
 import { DOCUMENT } from '@angular/common';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 
 export function HttpLoaderFactory(http: HttpClient, document: Document) {
@@ -29,6 +30,7 @@ export const appConfig: ApplicationConfig = {
         isolate: false
       })
     ),
+    provideAnimations(),
     LanguageService,
     { provide: DOCUMENT, useValue: document }
   ],

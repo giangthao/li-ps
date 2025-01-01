@@ -8,6 +8,7 @@ import { appRoutes } from './app.routes';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(
@@ -31,5 +32,6 @@ export const appConfig: ApplicationConfig = {
         },
       })
     ),
+    provideAnimations()
   ],
 };

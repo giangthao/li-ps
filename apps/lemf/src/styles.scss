@@ -1,4 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 .list-lemf{
     background-color: #eee;
+    margin: 40px;
+}
+
+.filter{
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    height: 40px;
 }

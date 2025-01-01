@@ -2,6 +2,20 @@
   <h2>{{ 'lemf.lemf_app' | translate }}</h2>
 
   <img style="width: 50px" alt="img" src="assets/images/rose.jpg" />
+  <app-not-found></app-not-found>
+  <app-test></app-test>
+  <form [formGroup]="formGroup" class="filter">
+    <mat-form-field appearance="fill">
+      <input matInput placeholder="Nhập tên" formControlName="name">
+    </mat-form-field>
+    
+    <mat-form-field appearance="fill">
+      <input matInput formControlName="email" placeholder="Nhập email">
+    </mat-form-field>
+    
+    <button mat-raised-button color="primary">
+      Search
+    </button>
+    
+  </form>
 </div>
-<app-not-found></app-not-found>
-<app-test></app-test>
