@@ -1,3 +1,50 @@
 <h1>List LEA</h1>
-<button mat-button (click)="openDialog()" [disabled]="isDialogOpen" >Mở Dialog</button>
-<button (click)="goToLemf()" style="margin-left: 24px;">Navigate to LEMF vs data input</button>
+<button mat-button (click)="openDialog()" [disabled]="isDialogOpen">
+  Mở Dialog
+</button>
+<button (click)="goToLemf()" style="margin-left: 24px">
+  Navigate to LEMF vs data input
+</button>
+<app-custom-tabs>
+  <app-tab tabTitle="Tab 1" [active]="true">
+    <ng-template>
+      <h2>Tab 1 Content</h2>
+      <p>This is the content for Tab 1</p>
+    </ng-template>
+  </app-tab>
+
+  <app-tab tabTitle="Tab 2">
+    <ng-template>
+      <h2>Tab 2 Content</h2>
+      <p>This is the content for Tab 2</p>
+    </ng-template>
+  </app-tab>
+
+  <app-tab tabTitle="Tab 3">
+    <ng-template>
+      <h2>Tab 3 Content</h2>
+      <p>This is the content for Tab 3</p>
+    </ng-template>
+  </app-tab>
+</app-custom-tabs>
+<div style="width: 500px; margin: 0 auto;">
+  <mat-tab-group [selectedIndex]="1">
+    <mat-tab label="First">
+      <div>
+        <h2>Tab 1 Content</h2>
+        <p>This is the content for Tab 1</p>
+      </div>
+    </mat-tab>
+    <mat-tab label="Second">
+        <div>
+            <h2>Tab 2 Content</h2>
+            <p>This is the content for Tab 2</p>
+          </div>
+    </mat-tab>
+    <mat-tab label="Third"> 
+        <div>
+            <h2>Tab 3 Content</h2>
+            <p>This is the content for Tab 3</p>
+          </div> </mat-tab>
+  </mat-tab-group>
+</div>

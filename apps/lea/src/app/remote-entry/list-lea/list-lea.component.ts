@@ -4,9 +4,13 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CheckConnectionComponent } from '../check-connection/check-connection.component';
 import { Router } from '@angular/router';
+import { CustomTabsComponent } from '../custom-tabs/custom-tabs.component';
+import { TabComponent } from '../custom-tabs/tab/tab.component';
+import {MatTabsModule} from '@angular/material/tabs';
+
 
 @Component({
-  imports: [CommonModule, TranslateModule, MatDialogModule],
+  imports: [CommonModule, TranslateModule, MatDialogModule, CustomTabsComponent, TabComponent, MatTabsModule],
   selector: 'app-list-lea',
   templateUrl: './list-lea.component.html',
   styleUrls: ['./list-lea.component.scss'],

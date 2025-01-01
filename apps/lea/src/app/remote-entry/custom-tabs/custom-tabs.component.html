@@ -1,0 +1,21 @@
+<div class="tabs">
+    <div class="tab-titles">
+      <button
+        *ngFor="let tab of tabs; let i = index"
+        class="tab-title"
+        [class.active]="selectedTabIndex === i"
+        (click)="selectTab(i)"
+      >
+        {{ tab.tabTitle }}
+      </button>
+    </div>
+    <div class="tab-content">
+      <div *ngFor="let tab of tabs; let i = index" >
+        <div *ngIf="selectedTabIndex === i"  [@tabAnimation] 
+        [ngClass]="{'tab-pane': true, 'active': selectedTabIndex === i}" class="tab-pane">
+          <ng-container *ngTemplateOutlet="tab.content"></ng-container>
+        </div>
+      </div>
+    </div>
+</div>
+  

@@ -1,0 +1,40 @@
+.tabs {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+  }
+  
+  .tab-titles {
+    display: flex;
+    cursor: pointer;
+  }
+  
+  .tab-title {
+    padding: 10px;
+    margin-right: 10px;
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .tab-title.active {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .tab-content {
+    margin-top: 10px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    max-height: 200px;
+    overflow-y: auto;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  
+  .tab-pane {
+    display: block;
+  }
+  
