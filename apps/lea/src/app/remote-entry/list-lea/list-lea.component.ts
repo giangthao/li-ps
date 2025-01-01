@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CheckConnectionComponent } from '../check-connection/check-connection.component';
+import { Router } from '@angular/router';
 
 @Component({
   imports: [CommonModule, TranslateModule, MatDialogModule],
@@ -14,7 +15,7 @@ import { CheckConnectionComponent } from '../check-connection/check-connection.c
 export class ListLeaComponent {
   isDialogOpen = false;
 
-  constructor(private readonly dialog: MatDialog) {}
+  constructor(private readonly dialog: MatDialog, private readonly router: Router) {}
 
   openDialog() {
     this.isDialogOpen = true
@@ -27,5 +28,10 @@ export class ListLeaComponent {
     dialogRef.afterClosed().subscribe(() => {
       this.isDialogOpen = false;  // Đánh dấu là dialog đã đóng
     });
+  }
+
+  goToLemf() {
+    // Chuyển hướng sang app lemf với query parameter 'filterName=test'
+    this.router.navigate(['lemf'], { queryParams: { filterName: 'test' } });
   }
 }

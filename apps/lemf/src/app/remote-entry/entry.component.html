@@ -13,9 +13,26 @@
       <input matInput formControlName="email" placeholder="Nhập email">
     </mat-form-field>
     
-    <button mat-raised-button color="primary">
-      Search
+    <button (click)="clearFilter()" mat-raised-button color="primary">
+      Clear
     </button>
     
   </form>
+  <table mat-table [dataSource]="dataFilter">
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+  
+    <!-- Email Column -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef> Email </th>
+      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  
 </div>
