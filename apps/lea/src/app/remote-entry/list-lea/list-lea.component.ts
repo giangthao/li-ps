@@ -36,6 +36,10 @@ export class ListLeaComponent {
 
   goToLemf() {
     // Chuyển hướng sang app lemf với query parameter 'filterName=test'
-    this.router.navigate(['lemf'], { queryParams: { filterName: 'test' } });
+    //this.router.navigate(['lemf'], { queryParams: { filterName: 'test' } });
+    const queryParams = { filterName: 'test' };
+    const urlTree = this.router.createUrlTree(['lemf'], { queryParams });
+    const fullUrl = this.router.serializeUrl(urlTree);
+    window.open(fullUrl, '_blank');
   }
 }
