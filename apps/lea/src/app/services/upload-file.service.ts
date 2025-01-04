@@ -4,9 +4,9 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class UploadFileService {
-  downloadErrorLog(errorLog: any[]): void {
+  downloadErrorLog(errorLog: {line: number, column: string, desc: string}[]): void {
     const csvContent = errorLog
-      .map((error) => `${error.line},${error.error},${error.desc}`)
+      .map((error) => `${String(error.line)},${error.column},${error.desc}`)
       .join('\n');
     const blob = new Blob([csvContent], { type: 'text/plain;charset=utf-8;' });
     this.emulatorDownload(blob, 'error-log.txt')
