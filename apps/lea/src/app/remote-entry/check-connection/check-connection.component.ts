@@ -16,6 +16,8 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { catchError, throwError, timeout } from 'rxjs';
 
 @Component({
   selector: 'app-check-connection',
@@ -28,6 +30,7 @@ import {
     MatIconModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
   ],
 })
 export class CheckConnectionComponent implements OnDestroy, OnInit {
@@ -60,7 +63,8 @@ export class CheckConnectionComponent implements OnDestroy, OnInit {
   constructor(
     private readonly dialog: MatDialog,
     private readonly dialogRef: MatDialogRef<CheckConnectionComponent>,
-    private readonly uploadFileService: UploadFileService
+    private readonly uploadFileService: UploadFileService,
+    private readonly http: HttpClient
   ) {
     this.formGroup = new FormGroup({
       file: new FormControl(null),
@@ -185,202 +189,115 @@ export class CheckConnectionComponent implements OnDestroy, OnInit {
       return;
     }
 
-    const fileExtension = file.name.split('.').pop()?.toLowerCase();
-    if (fileExtension === 'xlsx' || fileExtension === 'xls') {
-      this.readExcelFile(file);
-    } else {
-      this.readFile(file);
-    }
-  }
+    // const fileExtension = file.name.split('.').pop()?.toLowerCase();
+    // if (fileExtension === 'xlsx' || fileExtension === 'xls') {
+    //   this.readExcelFile(file);
+    // } else {
+    //   this.readFile(file);
+    // }
 
-  readExcelFile(file: File): void {
-    const reader = new FileReader();
-    this.isUploading = true;
-
-    reader.onload = (e: any) => {
-      const data = new Uint8Array(e.target.result);
-      const workbook = XLSX.read(data, { type: 'array' });
-      const sheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[sheetName];
-
-      try {
-        let jsonData: any[][] = XLSX.utils.sheet_to_json(worksheet, {
-          header: 1,
-        });
-        jsonData.shift();
-
-        jsonData = jsonData.map((row) => row.slice(0, 2));
-        jsonData = jsonData.filter((row) =>
-          row.some((cell) => cell !== undefined && cell !== null && cell !== '')
-        );
-
-        if (jsonData.length === 0) {
-          console.error('File Excel không có dữ liệu.');
-          return;
-        }
-        this.processExcelData(jsonData);
-      } catch (error) {
-        console.error('Lỗi khi xử lý file Excel:', error);
-      }
-    };
-
-    reader.readAsArrayBuffer(file);
-  }
-
-  processExcelData(data: any[][]): void {
-    const TIMEOUT_LIMIT = 120 * 1000; // 120 giây = 120 * 1000 ms
-    const startTime = Date.now();
-    this.isUploading = true;
-    const totalLines = data.length;
-    this.errorLog = [];
-    let numberOfErrors = 0;
-    const transformedData: { liId: string; leaId: string }[] = [];
-
-    let globalIndex = 0;
-
-    const seenLIID: { [key: string]: number } = {};
-    const seenLEAID: { [key: string]: number } = {};
-
-    const processChunk = (startLine: number) => {
-      let chunkEnd = startLine + this.linesPerChunk;
-      if (chunkEnd > totalLines) chunkEnd = totalLines;
-
-      for (let index = startLine; index < chunkEnd; index++) {
-        const line = data[index];
-        globalIndex++;
-        if (Date.now() - startTime > TIMEOUT_LIMIT) {
-          this.errorMessage = 'Lỗi: Quá thời gian xử lý (Timeout)';
+    // send file to Server node js
+    const formData = new FormData();
+    formData.append('file', file);
+    this.http
+      .post('http://localhost:3000/upload', formData)
+      .pipe(
+        timeout(100), // Hủy request nếu quá 120 giây
+        catchError((error) => {
+          if (error.name === 'TimeoutError') {
+            this.errorMessage =
+              'Quá trình tải file đã bị timeout. Vui lòng thử lại.';
+          } else {
+            this.errorMessage = 'Đã xảy ra lỗi khi tải file. Vui lòng thử lại.';
+          }
+          return throwError(() => error); // Ném lỗi ra để xử lý thêm nếu cần
+        })
+      )
+      .subscribe({
+        next: (response: any) => {
+          console.log('File uploaded successfully', response);
           this.isUploading = false;
-          return; 
-        }
-
-        if (!line || line.length !== 2) {
-          this.errorLog.push({
-            line: globalIndex,
-            column: 'LIID và LEA',
-            desc: 'Vui lòng nhập đúng template LIID, LEA',
-          });
-          numberOfErrors++;
-          continue;
-        }
-
-        const liid = line[0]?.toString().trim() || '';
-        const leaid = line[1]?.toString().trim() || '';
-        const validRegexLea = /^[a-zA-Z0-9-_]+$/;
-        const validRegexLIID = /^[a-zA-Z0-9~!-]+$/;
-        const maxLengthLEA = 255;
-        const maxLengthLIId = 50;
-
-        if (!liid || !leaid) {
-          this.errorLog.push({
-            line: globalIndex,
-            column: !liid ? 'LIID' : 'LEA',
-            desc: 'Thông tin bắt buộc',
-          });
-        } else {
-          if (!validRegexLIID.test(liid)) {
-            this.errorLog.push({
-              line: globalIndex,
-              column: 'LIID',
-              desc: 'LIID chỉ chứa các lí tự số, chữ cái, ~, ! , _',
-            });
-            numberOfErrors++;
-          }
-
-          if (!validRegexLea.test(leaid)) {
-            this.errorLog.push({
-              line: globalIndex,
-              column: 'LEAID',
-              desc: 'LEA chỉ chứa các kí tự số, chữ cái, -, _, sử dụng bảng chữ cái Tiếng Anh',
-            });
-            numberOfErrors++;
-          }
-
-          if (liid.length > maxLengthLIId) {
-            this.errorLog.push({
-              line: globalIndex,
-              column: 'LIID',
-              desc: `Maxlength của LIID là ${maxLengthLIId} kí tự`,
-            });
-            numberOfErrors++;
-          }
-
-          if (leaid.length > maxLengthLEA) {
-            this.errorLog.push({
-              line: globalIndex,
-              column: 'LEAID',
-              desc: `Maxlength của LEA là ${maxLengthLEA} kí tự`,
-            });
-            numberOfErrors++;
-          }
-
-          if (seenLIID[liid] !== undefined) {
-            this.errorLog.push({
-              line: globalIndex,
-              column: 'LIID',
-              desc: `Trùng bản ghi với dòng ${seenLIID[liid]}`,
-            });
-            numberOfErrors++;
+          if (response.file) {
+            this.isUploadSucess = true;
           } else {
-            seenLIID[liid] = globalIndex;
+            this.isUploadSucess = false;
+            this.errorMessage =
+              'Quá trình xử lí đã xảy ra lỗi. Vui lòng thử lại';
           }
-
-          if (seenLEAID[leaid] !== undefined) {
-            this.errorLog.push({
-              line: globalIndex,
-              column: 'LEAID',
-              desc: `Trùng bản ghi với dòng ${seenLEAID[leaid]}`,
-            });
-            numberOfErrors++;
-          } else {
-            seenLEAID[leaid] = globalIndex;
-          }
-        }
-      }
-
-      if (chunkEnd < totalLines) {
-        setTimeout(() => processChunk(chunkEnd));
-      } else {
-        if (numberOfErrors > 0) {
-          this.errorMessage = 'File sai định dạng';
-          this.uploadFileService.downloadErrorLog(this.errorLog);
-        } else {
-          this.isUploadSucess = true;
-          console.log(transformedData);
-        }
-        this.isUploading = false;
-      }
-    };
-
-    processChunk(0);
+        },
+        error: (err) => {
+          console.error('Upload failed:', err);
+          this.isUploadSucess = false;
+          this.isUploading = false;
+        },
+      });
   }
 
-  readFile(file: File): void {
-    this.isUploading = true;
-    console.log(this.isUploading);
-    const reader = new FileReader();
-    let lines: string[] = [];
+  downloadFile(requestId: string) {
+    if (!requestId) {
+      this.errorMessage = 'Request ID is required!';
+      return;
+    }
 
-    reader.onload = (e: any) => {
-      const fileContent = e.target.result;
+    this.errorMessage = 'Đang kiểm tra đấu nối vui lòng chờ';
 
-      if (
-        file.type === 'text/csv' ||
-        file.name.endsWith('.csv') ||
-        file.name.endsWith('.txt')
-      ) {
-        lines = fileContent.split('\n').map((line: string) => line.trim());
-        lines = lines.filter((l: string) => l !== '');
-        const data: any[][] = lines.map((line) => {
-          return line.split(',').map((cell) => cell.trim());
-        });
+    const apiUrl = `http://localhost:3000/generate-file?requestId=${encodeURIComponent(
+      requestId
+    )}`;
 
-        this.processExcelData(data);
-      }
-    };
+    this.http.get(apiUrl, { responseType: 'blob' }).subscribe({
+      next: (response) => {
+        this.dialogRef.close();
+        // Tạo link để tải file
+        const url = window.URL.createObjectURL(response);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = ''; // Sử dụng tên file từ header Content-Disposition
+        a.click();
+        window.URL.revokeObjectURL(url); // Dọn dẹp URL tạm sau khi tải xong
+        this.errorMessage = '';
 
-    reader.readAsText(file, 'UTF-8');
+        alert('Kiểm tra đấu nối thành công');
+      },
+      error: (err) => {
+        this.dialogRef.close();
+        console.error('Error downloading file:', err);
+        this.errorMessage = '';
+
+        alert('Kiểm tra đấu nối thất bại');
+      },
+    });
   }
+
+  downloadFileCsv() {
+    this.errorMessage = 'Đang tải file Danh sách kết quả, vui lòng chờ';
+
+    const apiUrl = `http://localhost:3000/generate-csv`;
+
+    this.http.get(apiUrl, { responseType: 'blob' }).subscribe({
+      next: (response) => {
+        this.dialogRef.close();
+        // Tạo link để tải file
+        const url = window.URL.createObjectURL(response);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = ''; // Sử dụng tên file từ header Content-Disposition
+        a.click();
+        window.URL.revokeObjectURL(url); // Dọn dẹp URL tạm sau khi tải xong
+        this.errorMessage = '';
+
+        alert('Tải file danh sách kết quả thành công');
+      },
+      error: (err) => {
+        this.dialogRef.close();
+        console.error('Error downloading file:', err);
+        this.errorMessage = '';
+
+        alert('Tải file danh sách kết quả thất bại');
+      },
+    });
+  }
+
 
   removeFileUpload(): void {
     this.isUploadSucess = false;
@@ -389,8 +306,8 @@ export class CheckConnectionComponent implements OnDestroy, OnInit {
     this.errorMessage = '';
     this.errorLog = [];
     this.formGroup.setValue({
-      file: null
-    })
+      file: null,
+    });
   }
 
   get fileSize(): string {

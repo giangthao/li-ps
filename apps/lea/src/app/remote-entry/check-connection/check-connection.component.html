@@ -31,10 +31,12 @@
 </div>
 
 <div class="popup__actions" mat-dialog-actions>
+  <button [disabled]="errorMessage" (click)="downloadFileCsv()" mat-button>Danh sách kết quả</button>
   <button mat-button (click)="closeDialog()">Đóng</button>
   <button
     mat-button
     [disabled]="files.length === 0 || isUploading || !isUploadSucess"
+    (click)="downloadFile('giang-test')"
   >
     Lưu
   </button>
